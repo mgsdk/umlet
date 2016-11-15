@@ -83,6 +83,12 @@ public class RelationDrawer {
 			drawer.drawLines(new PointDouble(point.getX() - size, point.getY() - dist), new PointDouble(point.getX() + size, point.getY() - dist), new PointDouble(point.getX(), point.getY() - size));
 			drawer.drawLines(new PointDouble(point.getX() + size, point.getY() + dist), new PointDouble(point.getX() - size, point.getY() + dist), new PointDouble(point.getX(), point.getY() + size));
 		}
+		else if (matchedText.equals("|")) {
+			int dist = 2;
+			int size = 6;
+			drawer.drawLines(new PointDouble(point.getX() - dist, point.getY() - size), new PointDouble(point.getX() - dist, point.getY() + size), new PointDouble(point.getX() - size, point.getY()));
+			drawer.drawLines(new PointDouble(point.getX() + dist, point.getY() + size), new PointDouble(point.getX() + dist, point.getY() - size), new PointDouble(point.getX() + size, point.getY()));
+		}
 		else {
 			drawer.print(matchedText, new PointDouble(point.getX() - width / 2 + distance, point.getY() + drawer.textHeightMax() / 2), AlignHorizontal.LEFT);
 			resizableObject.setPointMinSize(point.getIndex(), new Rectangle(-width / 2, -height / 2, width, height));
