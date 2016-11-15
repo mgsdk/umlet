@@ -39,20 +39,28 @@ public class RelationDrawer {
 		ColorOwn oldFgColor = drawer.getForegroundColor();
 
 		// Check if this is a conjugate port. Invert colors if so.
+		boolean conjugated = false;
 		if (matchedText.startsWith("~")) {
 			// Remove the first (conjugate) character.
 			matchedText = matchedText.substring(1);
 
+			conjugated = true;
+
 			// Invert colors.
 			drawer.setBackgroundColor(oldFgColor);
-			drawer.setForegroundColor(oldBgColor);
 		}
 
 		drawer.drawRectangle(r);
 
+		if (conjugated) {
+			// Invert the foreground.
+			drawer.setForegroundColor(oldBgColor);
+		}
+
 		int arrow = 4;
 
 		drawer.setBackgroundColor(drawer.getForegroundColor());
+
 		if (matchedText.equals("^")) {
 			PointDouble start = new PointDouble(point.getX(), point.getY() - arrow);
 			drawer.drawLines(start, new PointDouble(point.getX() + arrow, point.getY() + arrow), new PointDouble(point.getX() - arrow, point.getY() + arrow), start);
