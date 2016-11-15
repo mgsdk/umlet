@@ -33,10 +33,25 @@ public class RelationDrawer {
 		double width = Math.max(BOX_SIZE, drawer.textWidth(matchedText) + distance * 2);
 		PointDoubleIndexed point = (PointDoubleIndexed) line.getPoint(drawOnStart);
 		Rectangle r = new Rectangle(point.getX() - width / 2, point.getY() - height / 2, width, height);
+
+		// Store old colors.
+		ColorOwn oldBgColor = drawer.getBackgroundColor();
+		ColorOwn oldFgColor = drawer.getForegroundColor();
+
+		// Check if this is a conjugate port. Invert colors if so.
+		if (matchedText.startsWith("~")) {
+			// Remove the first (conjugate) character.
+			matchedText = matchedText.substring(1);
+
+			// Invert colors.
+			drawer.setBackgroundColor(oldFgColor);
+			drawer.setForegroundColor(oldBgColor);
+		}
+
 		drawer.drawRectangle(r);
 
 		int arrow = 4;
-		ColorOwn oldBgColor = drawer.getBackgroundColor();
+
 		drawer.setBackgroundColor(drawer.getForegroundColor());
 		if (matchedText.equals("^")) {
 			PointDouble start = new PointDouble(point.getX(), point.getY() - arrow);
@@ -64,8 +79,12 @@ public class RelationDrawer {
 			drawer.print(matchedText, new PointDouble(point.getX() - width / 2 + distance, point.getY() + drawer.textHeightMax() / 2), AlignHorizontal.LEFT);
 			resizableObject.setPointMinSize(point.getIndex(), new Rectangle(-width / 2, -height / 2, width, height));
 		}
+
+		// Restore settings.
 		drawer.setFontSize(oldFontsize);
 		drawer.setBackgroundColor(oldBgColor);
+		drawer.setForegroundColor(oldFgColor);
+
 		return r;
 	}
 
